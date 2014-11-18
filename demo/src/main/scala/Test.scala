@@ -28,6 +28,12 @@ object Test extends App {
   }
   val allClasses = allClassesInDir(root)
   val subclasses = allClasses.filter(clazz => classOf[api.Base].isAssignableFrom(clazz))
-  val instances = subclasses.map(_.newInstance.asInstanceOf[api.Base])
+  val instances = subclasses.map(clazz => {
+    val instance = {
+      try clazz.getDeclaredField("MODULE$").get(null)
+      catch { case ex: NoSuchFieldException => clazz.newInstance }
+    }
+    instance.asInstanceOf[api.Base]
+  })
   instances.foreach(_.apply())
 }
