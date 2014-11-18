@@ -28,5 +28,6 @@ object Test extends App {
   }
   val allClasses = allClassesInDir(root)
   val subclasses = allClasses.filter(clazz => classOf[api.Base].isAssignableFrom(clazz))
-  println(subclasses)
+  val instances = subclasses.map(_.newInstance.asInstanceOf[api.Base])
+  instances.foreach(_.apply())
 }
