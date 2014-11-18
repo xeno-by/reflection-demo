@@ -3,6 +3,7 @@ package app
 
 import java.io._
 import java.net._
+import scala.reflect.{classTag, ClassTag}
 
 object Test extends App {
   // TODO: would be nice to see how SBT's run can also do custom stuff
@@ -26,5 +27,6 @@ object Test extends App {
     })
   }
   val allClasses = allClassesInDir(root)
-  println(allClasses)
+  val subclasses = allClasses.filter(clazz => classOf[api.Base].isAssignableFrom(clazz))
+  println(subclasses)
 }
